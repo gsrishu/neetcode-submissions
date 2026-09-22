@@ -1,0 +1,34 @@
+class Solution {
+    /**
+     * @param {number[][]} grid
+     */
+    islandsAndTreasure(grid) {
+        const [row, col] = [grid.length, grid[0].length];
+        const stack = new Array();
+        for (let i = 0; i < row; i++) {
+            for (let j = 0; j < col; j++) {
+                if (grid[i][j] == 0) {
+                    stack.push([i, j,0]);
+                }
+            }
+        }
+            while (stack.length) {
+                const [di, dj, cdist] = stack.pop();
+                if (di < 0 || di >= row || dj < 0 || dj >= col) continue;
+                if (grid[di][dj] == -1) continue;
+                if (cdist > grid[di][dj]) continue;
+                grid[di][dj] = cdist;
+                if (di + 1 < row && grid[di + 1][dj] > cdist + 1)
+                    stack.push([di + 1, dj, cdist + 1]);
+                if (di - 1 >= 0 && grid[di - 1][dj] > cdist + 1)
+                    stack.push([di - 1, dj, cdist + 1]);
+                if (dj + 1 < col && grid[di][dj + 1] > cdist + 1)
+                    stack.push([di, dj + 1, cdist + 1]);
+                if (dj - 1 >= 0 && grid[di][dj - 1] > cdist + 1)
+                    stack.push([di, dj - 1, cdist + 1]);
+            }
+
+        
+        return grid;
+    }
+}
