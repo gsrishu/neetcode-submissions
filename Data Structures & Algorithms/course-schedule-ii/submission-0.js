@@ -1,0 +1,36 @@
+class Solution {
+    /**
+     * @param {number} numCourses
+     * @param {number[][]} prerequisites
+     * @return {number[]}
+     */
+    findOrder(numCourses, prerequisites) {
+        const indegree = new Array(numCourses).fill(0);
+        const graph = new Array(numCourses).fill(null).map(() => []);
+        for (const [i, j] of prerequisites) {
+            indegree[i]++;
+            graph[j].push(i);
+        }
+     
+        const queue = new Array();
+        let idx = 0;
+        for (let i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) {
+                queue.push(i);
+            }
+        }
+           console.log(queue)
+        const topo = new Array();
+        while (idx < queue.length) {
+            const node = queue[idx++];
+            topo.push(node);
+            for (const i of graph[node]) {
+                indegree[i]--;
+                if (indegree[i] == 0) {
+                    queue.push(i);
+                }
+            }
+        }
+        return topo.length == numCourses ? topo : []
+    }
+}
